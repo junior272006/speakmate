@@ -12,13 +12,9 @@ import {
   useMantineColorScheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import {
-  IconHome,
-  IconUsers,
-  IconSun,
-  IconMoon,
-} from '@tabler/icons-react';
+import { IconHome, IconUsers, IconSun, IconMoon } from '@tabler/icons-react';
 import { motion } from 'motion/react';
+import { useNavigate } from 'react-router-dom';
 import classes from './Header.module.css';
 
 interface NavLinkProps {
@@ -29,22 +25,22 @@ interface NavLinkProps {
 }
 
 export default function Header() {
-  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
-    useDisclosure(false);
+  const navigate = useNavigate();
+  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
-  const NavLink: React.FC<NavLinkProps> = ({
-    icon: Icon,
-    children,
-    href,
-    onClick,
-  }) => (
-    <motion.a
-      href={href}
+  // Composant NavLink
+  const NavLink: React.FC<NavLinkProps> = ({ icon: Icon, children, href, onClick }) => (
+    <motion.div
       className={classes.link}
-      onClick={onClick}
+      onClick={(e) => {
+        e.preventDefault(); // empêche le href par défaut
+        if (onClick) onClick(); // ex: fermer le drawer
+        navigate(href); // navigation interne
+      }}
       whileHover={{ scale: 1.03 }}
       transition={{ type: 'spring', stiffness: 300 }}
+      style={{ cursor: 'pointer' }}
     >
       <Group gap={8}>
         <Icon size={18} />
@@ -52,7 +48,7 @@ export default function Header() {
           {children}
         </Text>
       </Group>
-    </motion.a>
+    </motion.div>
   );
 
   return (
@@ -79,13 +75,13 @@ export default function Header() {
 
           {/* ---------------- DESKTOP LINKS ---------------- */}
           <Group h="100%" gap="xs" visibleFrom="sm">
-            <NavLink icon={IconHome} href="#accueil">
+            <NavLink icon={IconHome} href="/">
               Accueil
             </NavLink>
             <NavLink icon={IconUsers} href="#tuteurs">
               Tuteurs
             </NavLink>
-            <NavLink icon={IconUsers} href="#devenir-tuteur">
+            <NavLink icon={IconUsers} href="/signup">
               Devenir Tuteur
             </NavLink>
           </Group>
@@ -99,25 +95,17 @@ export default function Header() {
               radius="md"
               aria-label="Toggle color scheme"
             >
-              {colorScheme === 'dark' ? (
-                <IconSun size={18} />
-              ) : (
-                <IconMoon size={18} />
-              )}
+              {colorScheme === 'dark' ? <IconSun size={18} /> : <IconMoon size={18} />}
             </ActionIcon>
 
-            <Button color="brandBlue" radius="md" size="sm">
-              Se connecter
+            <Button color="brandBlue" radius="md" size="sm" >
+              Se Connecter
             </Button>
           </Group>
 
           {/* ---------------- MOBILE BURGER ---------------- */}
           <Box hiddenFrom="sm">
-            <Burger
-              opened={drawerOpened}
-              onClick={toggleDrawer}
-              color="var(--mantine-color-brandBlue-5)"
-            />
+            <Burger opened={drawerOpened} onClick={toggleDrawer} color="var(--mantine-color-brandBlue-5)" />
           </Box>
         </Group>
       </motion.header>
@@ -140,17 +128,13 @@ export default function Header() {
       >
         <ScrollArea h="calc(100vh - 80px)" mx="-md">
           <Stack gap="xs" px="md">
-            <NavLink icon={IconHome} href="#accueil" onClick={closeDrawer}>
+            <NavLink icon={IconHome} href="/" onClick={closeDrawer}>
               Accueil
             </NavLink>
             <NavLink icon={IconUsers} href="#tuteurs" onClick={closeDrawer}>
               Tuteurs
             </NavLink>
-            <NavLink
-              icon={IconUsers}
-              href="#devenir-tuteur"
-              onClick={closeDrawer}
-            >
+            <NavLink icon={IconUsers} href="/signup" onClick={closeDrawer}>
               Devenir Tuteur
             </NavLink>
           </Stack>
@@ -164,21 +148,12 @@ export default function Header() {
                 radius="md"
                 aria-label="Toggle color scheme"
               >
-                {colorScheme === 'dark' ? (
-                  <IconSun size={20} />
-                ) : (
-                  <IconMoon size={20} />
-                )}
+                {colorScheme === 'dark' ? <IconSun size={20} /> : <IconMoon size={20} />}
               </ActionIcon>
             </Group>
 
-            <Button
-              onClick={closeDrawer}
-              color="brandBlue"
-              fullWidth
-              radius="md"
-            >
-              Se connecter
+            <Button color="brandBlue" fullWidth radius="md" >
+              Se Connecter
             </Button>
           </Stack>
         </ScrollArea>

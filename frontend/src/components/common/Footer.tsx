@@ -17,12 +17,13 @@ import {
 } from '@tabler/icons-react';
 
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import classes from './Footer.module.css';
 
 export default function Footer() {
   const { colorScheme } = useMantineColorScheme();
+  const navigate = useNavigate();
 
-  // Gradient SpeakMate (BLEU → ROUGE)
   const bgGradient =
     colorScheme === 'dark'
       ? 'linear-gradient(135deg, var(--mantine-color-dark-9), var(--mantine-color-dark-7))'
@@ -35,11 +36,25 @@ export default function Footer() {
 
   const hoverColor = 'var(--mantine-color-brandRed-5)';
 
+  const quickLinks = [
+    { label: 'Accueil', to: '/' },
+    { label: 'Tuteurs', to: '/#tuteurs' },
+    { label: 'Devenir tuteur', to: '/signup' },
+    { label: 'Connexion', to: '/login' },
+  ];
+
+  const infoLinks = [
+    { label: 'Contact', to: '/contact' },
+    { label: 'FAQ', to: '/faq' },
+    { label: 'Politique de confidentialité', to: '/privacy' },
+  ];
+
   return (
     <Box component="footer" py={50} px={20} style={{ background: bgGradient }}>
       <Container size="lg">
         <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="xl">
 
+          {/* =================== LOGO & DESCRIPTION =================== */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -56,6 +71,7 @@ export default function Footer() {
             </Stack>
           </motion.div>
 
+          {/* =================== LIENS RAPIDES =================== */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -64,11 +80,10 @@ export default function Footer() {
           >
             <Stack gap="xs" className={classes.footerStack}>
               <Text fw={600} c={textColor}>Liens rapides</Text>
-              {['Accueil', 'Tuteurs', 'Devenir tuteur', 'Connexion'].map((link) => (
+              {quickLinks.map((link) => (
                 <Text
-                  key={link}
+                  key={link.label}
                   component="a"
-                  href="#"
                   c={textColor}
                   size="sm"
                   styles={{
@@ -79,13 +94,15 @@ export default function Footer() {
                       ':hover': { color: hoverColor },
                     },
                   }}
+                  onClick={() => navigate(link.to)}
                 >
-                  {link}
+                  {link.label}
                 </Text>
               ))}
             </Stack>
           </motion.div>
 
+          {/* =================== INFORMATIONS =================== */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -94,11 +111,10 @@ export default function Footer() {
           >
             <Stack gap="xs" className={classes.footerStack}>
               <Text fw={600} c={textColor}>Informations</Text>
-              {['Contact', 'FAQ', 'Politique de confidentialité'].map((info) => (
+              {infoLinks.map((info) => (
                 <Text
-                  key={info}
+                  key={info.label}
                   component="a"
-                  href="#"
                   c={textColor}
                   size="sm"
                   styles={{
@@ -109,13 +125,15 @@ export default function Footer() {
                       ':hover': { color: hoverColor },
                     },
                   }}
+                  onClick={() => navigate(info.to)}
                 >
-                  {info}
+                  {info.label}
                 </Text>
               ))}
             </Stack>
           </motion.div>
 
+          {/* =================== RESEAUX SOCIAUX =================== */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

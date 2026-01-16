@@ -53,6 +53,19 @@ export const theme = createTheme({
       "#7A0000",
       "#4D0000",
     ],
+    // ✅ Vert – pour succès, validation
+  brandGreen: [
+    "#E6F9ED",
+    "#C2F1CD",
+    "#99E5AA",
+    "#70D987",
+    "#4FCF66",
+    "#2AB94B", // principal
+    "#1F8F36",
+    "#156622",
+    "#0C3B0F",
+    "#051D08",
+  ],
 
     // ⚪ Neutres
     neutral: [
