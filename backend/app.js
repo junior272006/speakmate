@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const TutorRoute=require('./routes/tutor')
 require('dotenv').config();
 
 // 🔍 DEBUG - Vérifie le JWT_SECRET au démarrage
@@ -9,6 +10,10 @@ if (process.env.JWT_SECRET) {
   console.log(' Longueur:', process.env.JWT_SECRET.length, 'caractères');
 }
 
+// LOG pour vérifier
+console.log(' Cloud Name:', process.env.CLOUDINARY_CLOUD_NAME);
+console.log(' API Key:', process.env.CLOUDINARY_API_KEY);
+console.log(' API Secret:', process.env.CLOUDINARY_API_SECRET ? ' OK' : ' MANQUANT');
 const app = express();
 
 // Connexion MongoDB
@@ -40,4 +45,5 @@ app.get('/api/health', (req, res) => {
 });
 
 // Routes
+app.use('/api/tutor',TutorRoute)
 module.exports = app;

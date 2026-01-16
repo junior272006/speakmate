@@ -176,11 +176,11 @@ export default function Home () {
 
   {/* ================= TESTIMONIALS ================= */}
       <Box py={80} bg={colorScheme === "dark" ? "var(--mantine-color-dark-8)" : "var(--mantine-color-brandBlue-5)"}>
-        <Container size="sm">
+        <Container size="md">
           <Title ta="center" mb="xl">
             Ce que disent nos utilisateurs
           </Title>
-          <SimpleGrid cols={{ base: 1, sm: 1, md: 1 }} spacing="sm">
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="lg">
             {[
               { name: "Alice", feedback: "J'ai utilisé SpeakMate et ça m'a beaucoup aidée à progresser en anglais !" },
               { name: "Mohamed", feedback: "Grâce à SpeakMate, j'ai trouvé un tuteur parfait pour mes besoins." },
