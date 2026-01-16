@@ -22,7 +22,7 @@ export default function Home () {
     return (
         <>
         <Header/>
-       <Box>
+     <Box>
   {/* ================= HERO ================= */}
   <Box
     py={80}
@@ -31,7 +31,7 @@ export default function Home () {
       background:
         colorScheme === "dark"
           ? "linear-gradient(135deg, var(--mantine-color-dark-9), var(--mantine-color-dark-7))"
-          : "linear-gradient(135deg, var(--mantine-color-brandOrange-5), var(--mantine-color-brandBlue-4))", // <-- dégradé orange → bleu clair
+          : "linear-gradient(135deg, var(--mantine-color-brandBlue-6), var(--mantine-color-brandRed-5))",
     }}
   >
     <Container size="lg">
@@ -63,13 +63,13 @@ export default function Home () {
         >
           <Group className={classes.heroButtons}>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button size="md" radius="md" color="brandOrange">
+              <Button size="md" radius="md" color="brandBlue">
                 Trouver un tuteur
               </Button>
             </motion.div>
 
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button size="md" radius="md" variant="outline" color="brandBlue"> {/* <-- bouton bleu */}
+              <Button size="md" radius="md" variant="outline" color="brandRed">
                 Devenir tuteur
               </Button>
             </motion.div>
@@ -96,7 +96,11 @@ export default function Home () {
           viewport={{ once: true }}
         >
           <Card radius="md" withBorder className={classes.statCard}>
-            <Title order={3} ta="center" c={index % 2 === 0 ? "brandOrange.6" : "brandBlue.6"}> {/* <-- texte alterné orange/bleu */}
+            <Title
+              order={3}
+              ta="center"
+              c={index % 2 === 0 ? "brandBlue.6" : "brandRed.6"}
+            >
               {stat.value}
             </Title>
             <Text ta="center" c="dimmed" size="sm">
@@ -151,7 +155,12 @@ export default function Home () {
           viewport={{ once: true }}
         >
           <Card radius="md" withBorder h="100%" className={classes.featureCard}>
-            <ThemeIcon size="lg" radius="md" color={index % 2 === 0 ? "brandOrange" : "brandBlue"} mb="sm"> {/* <-- icône orange/bleu alterné */}
+            <ThemeIcon
+              size="lg"
+              radius="md"
+              color={index % 2 === 0 ? "brandBlue" : "brandRed"}
+              mb="sm"
+            >
               <feature.icon size={20} />
             </ThemeIcon>
 
@@ -165,8 +174,31 @@ export default function Home () {
     </SimpleGrid>
   </Container>
 
+  {/* ================= TESTIMONIALS ================= */}
+      <Box py={80} bg={colorScheme === "dark" ? "var(--mantine-color-dark-8)" : "var(--mantine-color-brandBlue-5)"}>
+        <Container size="sm">
+          <Title ta="center" mb="xl">
+            Ce que disent nos utilisateurs
+          </Title>
+          <SimpleGrid cols={{ base: 1, sm: 1, md: 1 }} spacing="sm">
+            {[
+              { name: "Alice", feedback: "J'ai utilisé SpeakMate et ça m'a beaucoup aidée à progresser en anglais !" },
+              { name: "Mohamed", feedback: "Grâce à SpeakMate, j'ai trouvé un tuteur parfait pour mes besoins." },
+              { name: "Fatou", feedback: "Plateforme intuitive et tuteurs très compétents !" },
+            ].map((testi, index) => (
+              <motion.div key={index} initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: index * 0.1 }} viewport={{ once: true }}>
+                <Card radius="md" withBorder p="lg" className={classes.testimonialCard}>
+                  <Text c="dimmed" size="sm" mb="md">"{testi.feedback}"</Text>
+                  <Text fw={700}>{testi.name}</Text>
+                </Card>
+              </motion.div>
+            ))}
+          </SimpleGrid>
+        </Container>
+      </Box>
+
   {/* ================= CTA FINAL ================= */}
-  <Box py={80} bg="brandOrange.6">
+  <Box py={80} bg="brandBlue.7">
     <Container size="sm">
       <Stack align="center">
         <Title ta="center" c="white">
@@ -176,7 +208,7 @@ export default function Home () {
           Inscription rapide et gratuite
         </Text>
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          <Button size="md" variant="outline" color="brandBlue"> {/* <-- bouton bleu */}
+          <Button size="md" variant="outline" color="brandRed">
             Créer un compte
           </Button>
         </motion.div>

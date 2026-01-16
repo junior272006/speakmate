@@ -22,20 +22,24 @@ import classes from './Footer.module.css';
 export default function Footer() {
   const { colorScheme } = useMantineColorScheme();
 
-  // Gradient background style SpeakMate (orange → bleu)
-  const bgGradient = colorScheme === 'dark'
-    ? 'linear-gradient(135deg, var(--mantine-color-dark-9), var(--mantine-color-dark-7))'
-    : 'linear-gradient(135deg, var(--mantine-color-brandOrange-5), var(--mantine-color-brandBlue-4))';
+  // Gradient SpeakMate (BLEU → ROUGE)
+  const bgGradient =
+    colorScheme === 'dark'
+      ? 'linear-gradient(135deg, var(--mantine-color-dark-9), var(--mantine-color-dark-7))'
+      : 'linear-gradient(135deg, var(--mantine-color-brandBlue-6), var(--mantine-color-brandRed-5))';
 
-  const textColor = colorScheme === 'dark' ? 'var(--mantine-color-gray-3)' : 'white';
-  const hoverColor = 'var(--mantine-color-brandBlue-5)';
+  const textColor =
+    colorScheme === 'dark'
+      ? 'var(--mantine-color-gray-3)'
+      : 'white';
+
+  const hoverColor = 'var(--mantine-color-brandRed-5)';
 
   return (
     <Box component="footer" py={50} px={20} style={{ background: bgGradient }}>
       <Container size="lg">
         <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="xl">
-          
-          {/* Logo & Description */}
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -43,14 +47,15 @@ export default function Footer() {
             transition={{ duration: 0.6 }}
           >
             <Stack gap="xs" className={classes.footerStack}>
-              <Text fw={700} c={textColor}>SpeakMate</Text>
+              <Text fw={700} c={textColor}>
+                SpeakMate
+              </Text>
               <Text c={textColor} size="sm">
-                La plateforme officielle pour trouver votre tuteur et progresser en anglais.
+                La plateforme idéale pour trouver un tuteur et progresser efficacement en anglais.
               </Text>
             </Stack>
           </motion.div>
 
-          {/* Liens rapides */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -70,6 +75,7 @@ export default function Footer() {
                     root: {
                       textDecoration: 'none',
                       cursor: 'pointer',
+                      transition: 'color 0.2s ease',
                       ':hover': { color: hoverColor },
                     },
                   }}
@@ -80,7 +86,6 @@ export default function Footer() {
             </Stack>
           </motion.div>
 
-          {/* Infos */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -88,7 +93,7 @@ export default function Footer() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <Stack gap="xs" className={classes.footerStack}>
-              <Text fw={600} c={textColor}>Infos</Text>
+              <Text fw={600} c={textColor}>Informations</Text>
               {['Contact', 'FAQ', 'Politique de confidentialité'].map((info) => (
                 <Text
                   key={info}
@@ -100,6 +105,7 @@ export default function Footer() {
                     root: {
                       textDecoration: 'none',
                       cursor: 'pointer',
+                      transition: 'color 0.2s ease',
                       ':hover': { color: hoverColor },
                     },
                   }}
@@ -110,7 +116,6 @@ export default function Footer() {
             </Stack>
           </motion.div>
 
-          {/* Réseaux sociaux */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -118,7 +123,7 @@ export default function Footer() {
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             <Stack gap="xs" className={classes.footerStack}>
-              <Text fw={600} c={textColor}>Réseaux</Text>
+              <Text fw={600} c={textColor}>Réseaux sociaux</Text>
               <Group gap="sm" className={classes.footerGroup}>
                 <ActionIcon variant="filled" color="brandBlue" component="a" href="#">
                   <IconBrandFacebook size={20} color="white" />
@@ -126,10 +131,10 @@ export default function Footer() {
                 <ActionIcon variant="filled" color="brandBlue" component="a" href="#">
                   <IconBrandLinkedin size={20} color="white" />
                 </ActionIcon>
-                <ActionIcon variant="filled" color="brandOrange" component="a" href="#">
+                <ActionIcon variant="filled" color="brandRed" component="a" href="#">
                   <IconBrandInstagram size={20} color="white" />
                 </ActionIcon>
-                <ActionIcon variant="filled" color="brandOrange" component="a" href="#">
+                <ActionIcon variant="filled" color="brandRed" component="a" href="#">
                   <IconBrandTwitter size={20} color="white" />
                 </ActionIcon>
               </Group>
@@ -138,7 +143,6 @@ export default function Footer() {
 
         </SimpleGrid>
 
-        {/* Copyright */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -146,7 +150,7 @@ export default function Footer() {
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <Text ta="center" mt={40} c={textColor} size="xs">
-            © 2026 SpeakMate – Tous droits réservés
+            © 2026 SpeakMate — Tous droits réservés
           </Text>
         </motion.div>
       </Container>

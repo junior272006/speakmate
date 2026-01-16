@@ -1,5 +1,4 @@
 /* ================= HERO ================= */
-
 .heroButtons {
   display: flex;
   gap: 12px;
@@ -20,10 +19,10 @@
 }
 
 /* ================= TEXT SIZES ================= */
-
 .heroTitle {
   font-size: 2.2rem;
   line-height: 1.2;
+  font-weight: 700;
 }
 
 .heroText {
@@ -42,9 +41,14 @@
 }
 
 /* ================= CARDS ================= */
-
 .card {
   padding: 1.25rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* 📱 Mobile cards */
@@ -55,9 +59,9 @@
 }
 
 /* ================= STATS ================= */
-
 .statValue {
   font-size: 1.4rem;
+  font-weight: 700;
 }
 
 @media (max-width: 768px) {
@@ -67,13 +71,60 @@
 }
 
 /* ================= CTA ================= */
-
 .ctaTitle {
   font-size: 1.8rem;
+  font-weight: 700;
 }
 
 @media (max-width: 768px) {
   .ctaTitle {
     font-size: 1.4rem;
   }
+}
+
+/* ================= TESTIMONIALS ================= */
+.testimonialCard {
+  padding: 1.5rem;
+  border-radius: var(--mantine-radius-md);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: var(--mantine-color-neutral-0);
+}
+
+.testimonialCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.testimonialCardText {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--mantine-color-dark-6);
+  margin-bottom: 0.5rem;
+}
+
+.testimonialCardName {
+  font-weight: 700;
+  color: var(--mantine-color-dark-7);
+}
+
+/* 📱 Mobile testimonials */
+@media (max-width: 768px) {
+  .testimonialCard {
+    padding: 1rem;
+  }
+
+  .testimonialCardText {
+    font-size: 0.9rem;
+  }
+
+  .testimonialCardName {
+    font-size: 0.95rem;
+  }
+}
+
+/* ================= SIMPLE ANIMATION ================= */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
 }
