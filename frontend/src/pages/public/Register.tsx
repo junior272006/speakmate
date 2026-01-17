@@ -42,6 +42,8 @@ export default function Signup() {
   };
 
   const handleFileChange = (file: File | null) => {
+    console.log('handleFileChange appelé', file);
+    
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
@@ -57,14 +59,19 @@ export default function Signup() {
     setAvatarFile(file);
     setError('');
 
+    console.log('Début du chargement de l\'image');
+    
     // Utiliser FileReader pour tous les appareils (plus fiable sur mobile)
     const reader = new FileReader();
     reader.onload = (e) => {
+      console.log('Image chargée avec succès');
       if (e.target?.result) {
         setPreview(e.target.result as string);
+        console.log('Preview défini');
       }
     };
     reader.onerror = () => {
+      console.error('Erreur de chargement');
       setError("Impossible de charger l'image");
     };
     reader.readAsDataURL(file);
@@ -197,13 +204,36 @@ export default function Signup() {
                 ) : (
                   <Avatar size={120} radius="xl" color="brandBlue"><IconUser size={48} /></Avatar>
                 )}
-                <FileButton onChange={handleFileChange} accept="image/*">
-                  {(props) => (
-                    <Button {...props} variant="light" color="brandBlue" leftSection={<IconUpload size={16} />} size="sm">
-                      {preview ? 'Changer la photo' : 'Ajouter une photo'}
-                    </Button>
-                  )}
-                </FileButton>
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="avatar-upload"
+                  style={{ display: 'none' }}
+                  onChange={(e) => {
+                    console.log('Input onChange déclenché', e.target.files);
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      console.log('Fichier trouvé:', file.name, file.type, file.size);
+                      handleFileChange(file);
+                    } else {
+                      console.log('Aucun fichier sélectionné');
+                    }
+                  }}
+                  onClick={(e) => {
+                    // Reset pour permettre de sélectionner la même image
+                    (e.target as HTMLInputElement).value = '';
+                  }}
+                />
+                <Button
+                  component="label"
+                  htmlFor="avatar-upload"
+                  variant="light"
+                  color="brandBlue"
+                  leftSection={<IconUpload size={16} />}
+                  size="sm"
+                >
+                  {preview ? 'Changer la photo' : 'Ajouter une photo'}
+                </Button>
               </Stack>
             </Center>
           </Stack>
