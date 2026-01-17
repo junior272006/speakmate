@@ -205,9 +205,13 @@ export default function Signup() {
                   <Avatar size={120} radius="xl" color="brandBlue"><IconUser size={48} /></Avatar>
                 )}
                 <input
+                  ref={(el) => {
+                    if (el) {
+                      (window as any).fileInput = el;
+                    }
+                  }}
                   type="file"
                   accept="image/*"
-                  id="avatar-upload"
                   style={{ display: 'none' }}
                   onChange={(e) => {
                     console.log('Input onChange déclenché', e.target.files);
@@ -218,19 +222,25 @@ export default function Signup() {
                     } else {
                       console.log('Aucun fichier sélectionné');
                     }
-                  }}
-                  onClick={(e) => {
-                    // Reset pour permettre de sélectionner la même image
-                    (e.target as HTMLInputElement).value = '';
+                    // Reset
+                    e.target.value = '';
                   }}
                 />
                 <Button
-                  component="label"
-                  htmlFor="avatar-upload"
                   variant="light"
                   color="brandBlue"
                   leftSection={<IconUpload size={16} />}
                   size="sm"
+                  onClick={() => {
+                    console.log('Bouton cliqué');
+                    const input = (window as any).fileInput as HTMLInputElement;
+                    if (input) {
+                      console.log('Input trouvé, déclenchement du click');
+                      input.click();
+                    } else {
+                      console.log('Input non trouvé !');
+                    }
+                  }}
                 >
                   {preview ? 'Changer la photo' : 'Ajouter une photo'}
                 </Button>
