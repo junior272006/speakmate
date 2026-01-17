@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { 
   Button, Group, TextInput, PasswordInput, Stack, Paper, Textarea,
-  Title, Text, Container, Center, ThemeIcon, Alert,  Avatar,
+  Title, Text, Container, Center, ThemeIcon, Alert, Avatar,
   Checkbox, MultiSelect, Progress, Badge
 } from '@mantine/core';
 import { 
@@ -14,6 +14,7 @@ import type { TutorData } from '../../api/authService';
 
 export default function Signup() {
   const navigate = useNavigate();
+  const fileInputRef = useRef<HTMLInputElement>(null);
  
   const [activeStep, setActiveStep] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -36,6 +37,36 @@ export default function Signup() {
     presentation: '',
     termsAccepted: false,
   });
+
+  // Listener natif pour détecter le changement de fichier
+  useEffect(() => {
+    const input = fileInputRef.current;
+    if (!input) return;
+
+    const handleFileSelect = (e: Event) => {
+      console.log('Listener natif déclenché', e);
+      const target = e.target as HTMLInputElement;
+      const file = target.files?.[0];
+      
+      if (file) {
+        console.log('Fichier détecté via listener natif:', file.name, file.type, file.size);
+        handleFileChange(file);
+      } else {
+        console.log('Aucun fichier dans le listener natif');
+      }
+      
+      // Reset
+      target.value = '';
+    };
+
+    input.addEventListener('change', handleFileSelect);
+    input.addEventListener('input', handleFileSelect);
+
+    return () => {
+      input.removeEventListener('change', handleFileSelect);
+      input.removeEventListener('input', handleFileSelect);
+    };
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -205,34 +236,10 @@ export default function Signup() {
                   <Avatar size={120} radius="xl" color="brandBlue"><IconUser size={48} /></Avatar>
                 )}
                 <input
-                  ref={(el) => {
-                    if (el) {
-                      (window as any).fileInput = el;
-                    }
-                  }}
+                  ref={fileInputRef}
                   type="file"
                   accept="image/*"
                   style={{ display: 'none' }}
-                  onInput={(e) => {
-                    console.log('Input onInput déclenché', (e.target as HTMLInputElement).files);
-                    const file = (e.target as HTMLInputElement).files?.[0];
-                    if (file) {
-                      console.log('Fichier trouvé via onInput:', file.name, file.type, file.size);
-                      handleFileChange(file);
-                    }
-                  }}
-                  onChange={(e) => {
-                    console.log('Input onChange déclenché', e.target.files);
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      console.log('Fichier trouvé via onChange:', file.name, file.type, file.size);
-                      handleFileChange(file);
-                    } else {
-                      console.log('Aucun fichier sélectionné');
-                    }
-                    // Reset
-                    e.target.value = '';
-                  }}
                 />
                 <Button
                   variant="light"
@@ -241,10 +248,9 @@ export default function Signup() {
                   size="sm"
                   onClick={() => {
                     console.log('Bouton cliqué');
-                    const input = (window as any).fileInput as HTMLInputElement;
-                    if (input) {
+                    if (fileInputRef.current) {
                       console.log('Input trouvé, déclenchement du click');
-                      input.click();
+                      fileInputRef.current.click();
                     } else {
                       console.log('Input non trouvé !');
                     }
