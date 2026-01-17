@@ -43,18 +43,31 @@ export default function Signup() {
 
   const handleFileChange = (file: File | null) => {
     if (!file) return;
+
     if (!file.type.startsWith('image/')) {
       setError('Veuillez sélectionner une image');
       return;
     }
+
     if (file.size > 5 * 1024 * 1024) {
       setError("L'image ne doit pas dépasser 5MB");
       return;
     }
+
     setAvatarFile(file);
-    const reader = new FileReader();
-    reader.onloadend = () => setPreview(reader.result as string);
-    reader.readAsDataURL(file);
+
+    // Mobile-friendly preview
+    if (window.innerWidth > 768) {
+      // Desktop : URL.createObjectURL
+      const url = URL.createObjectURL(file);
+      setPreview(url);
+    } else {
+      // Mobile : FileReader
+      const reader = new FileReader();
+      reader.onload = () => setPreview(reader.result as string);
+      reader.onerror = () => setError("Impossible de charger l'image sur ce périphérique");
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleLevelChange = (values: string[]) => {
@@ -66,7 +79,6 @@ export default function Signup() {
   };
 
   const nextStep = () => {
-    // Validation étape 1
     if (activeStep === 0) {
       if (!formData.firstname || !formData.lastname || !formData.email || 
           !formData.phone || !formData.country || !formData.password) {
@@ -78,15 +90,10 @@ export default function Signup() {
         return;
       }
     }
-    
-    // Validation étape 2 (optionnelle - tu peux ajouter si besoin)
-    if (activeStep === 1) {
-      // Pas de validation stricte pour cette étape
-    }
-    
-    setError(''); // Réinitialiser l'erreur
+    setError('');
     setActiveStep((current) => Math.min(current + 1, 2));
   };
+
   const prevStep = () => setActiveStep((current) => Math.max(current - 1, 0));
 
   const handleSubmit = async () => {
@@ -147,14 +154,9 @@ export default function Signup() {
           </Alert>
         )}
 
-        {/* Custom Stepper Progress */}
+        {/* Stepper */}
         <Stack gap="md" mb="xl">
-          <Group 
-            justify="center" 
-            gap="sm"
-            wrap="nowrap" 
-            style={{ overflow: 'auto' }}
-          >
+          <Group justify="center" gap="sm" wrap="nowrap" style={{ overflow: 'auto' }}>
             {steps.map((step, index) => (
               <Stack key={index} gap={6} align="center" style={{ minWidth: '80px', flex: 1 }}>
                 <Badge 
@@ -167,13 +169,7 @@ export default function Signup() {
                   {index + 1}
                 </Badge>
                 <div style={{ textAlign: 'center', width: '100%' }}>
-                  <Text 
-                    size="xs" 
-                    fw={500}
-                    lineClamp={1}
-                  >
-                    {step.label}
-                  </Text>
+                  <Text size="xs" fw={500} lineClamp={1}>{step.label}</Text>
                 </div>
               </Stack>
             ))}
@@ -181,48 +177,25 @@ export default function Signup() {
           <Progress value={((activeStep + 1) / steps.length) * 100} size="sm" radius="xl" />
         </Stack>
 
-        {/* Étape 1: Infos personnelles */}
+        {/* Step 1 */}
         {activeStep === 0 && (
           <Stack gap="md">
             <Group gap="md" grow>
-              <TextInput 
-                label="Prénom" name="firstname" value={formData.firstname} onChange={handleChange}
-                placeholder="Prénom" leftSection={<IconUser size={16} />} required
-              />
-              <TextInput 
-                label="Nom" name="lastname" value={formData.lastname} onChange={handleChange}
-                placeholder="Nom" leftSection={<IconUser size={16} />} required
-              />
+              <TextInput label="Prénom" name="firstname" value={formData.firstname} onChange={handleChange} placeholder="Prénom" leftSection={<IconUser size={16} />} required />
+              <TextInput label="Nom" name="lastname" value={formData.lastname} onChange={handleChange} placeholder="Nom" leftSection={<IconUser size={16} />} required />
             </Group>
 
-            <TextInput 
-              label="Email" name="email" type="email" value={formData.email} onChange={handleChange}
-              placeholder="exemple@gmail.com" leftSection={<IconMail size={16} />} required
-            />
-
-            <TextInput 
-              label="Téléphone" name="phone" value={formData.phone} onChange={handleChange}
-              placeholder="Ex : 0102030405" leftSection={<IconPhone size={16} />} required
-            />
-
-            <TextInput 
-              label="Pays" name="country" value={formData.country} onChange={handleChange}
-              placeholder="Ex : France" required
-            />
-
-            <PasswordInput 
-              label="Mot de passe" name="password" value={formData.password} onChange={handleChange}
-              placeholder="6 caractères minimum" leftSection={<IconLock size={16} />} required
-            />
+            <TextInput label="Email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="exemple@gmail.com" leftSection={<IconMail size={16} />} required />
+            <TextInput label="Téléphone" name="phone" value={formData.phone} onChange={handleChange} placeholder="Ex : 0102030405" leftSection={<IconPhone size={16} />} required />
+            <TextInput label="Pays" name="country" value={formData.country} onChange={handleChange} placeholder="Ex : France" required />
+            <PasswordInput label="Mot de passe" name="password" value={formData.password} onChange={handleChange} placeholder="6 caractères minimum" leftSection={<IconLock size={16} />} required />
 
             <Center>
               <Stack align="center" gap="sm">
                 {preview ? (
-                  <Avatar src={preview} size={120} radius="xl" />
+                  <Avatar src={preview} size={120} radius="xl" styles={{ image: { objectFit: 'cover' } }} />
                 ) : (
-                  <Avatar size={120} radius="xl" color="brandBlue">
-                    <IconUser size={48} />
-                  </Avatar>
+                  <Avatar size={120} radius="xl" color="brandBlue"><IconUser size={48} /></Avatar>
                 )}
                 <FileButton onChange={handleFileChange} accept="image/*">
                   {(props) => (
@@ -236,40 +209,20 @@ export default function Signup() {
           </Stack>
         )}
 
-        {/* Étape 2: Formation */}
+        {/* Step 2 */}
         {activeStep === 1 && (
           <Stack gap="md">
-            <TextInput 
-              label="Formation" name="formation" value={formData.formation} onChange={handleChange} 
-              placeholder="Ex : Licence Informatique" 
-            />
-            <TextInput 
-              label="Expérience" name="experience" value={formData.experience} onChange={handleChange} 
-              placeholder="Ex : 2 ans comme professeur" 
-            />
-            <MultiSelect 
-              label="Niveaux enseignés" 
-              data={['Débutant','Intermédiaire','Avancé']} 
-              value={formData.level || []} 
-              onChange={handleLevelChange} 
-              placeholder="Choisissez les niveaux"
-            />
-            <Textarea 
-              label="Présentation" name="presentation" value={formData.presentation} onChange={handleChange}
-              placeholder="Parlez de vous..." minRows={4}
-            />
+            <TextInput label="Formation" name="formation" value={formData.formation} onChange={handleChange} placeholder="Ex : Licence Informatique" />
+            <TextInput label="Expérience" name="experience" value={formData.experience} onChange={handleChange} placeholder="Ex : 2 ans comme professeur" />
+            <MultiSelect label="Niveaux enseignés" data={['Débutant','Intermédiaire','Avancé']} value={formData.level || []} onChange={handleLevelChange} placeholder="Choisissez les niveaux" />
+            <Textarea label="Présentation" name="presentation" value={formData.presentation} onChange={handleChange} placeholder="Parlez de vous..." minRows={4} />
           </Stack>
         )}
 
-        {/* Étape 3: Validation */}
+        {/* Step 3 */}
         {activeStep === 2 && (
           <Stack gap="md">
-            <Checkbox 
-              label="J'accepte les conditions d'utilisation" 
-              checked={formData.termsAccepted} 
-              onChange={(e) => handleTermsChange(e.currentTarget.checked)}
-              required
-            />
+            <Checkbox label="J'accepte les conditions d'utilisation" checked={formData.termsAccepted} onChange={(e) => handleTermsChange(e.currentTarget.checked)} required />
             <Paper p="md" withBorder>
               <Title order={4} mb="sm">Récapitulatif de votre inscription</Title>
               <Stack gap="xs">
@@ -287,45 +240,19 @@ export default function Signup() {
           </Stack>
         )}
 
-        {/* Navigation buttons */}
+        {/* Navigation */}
         {activeStep < 2 ? (
           <Group mt="xl" justify="space-between">
-            <Button 
-              variant="default" 
-              onClick={prevStep} 
-              disabled={activeStep === 0}
-              leftSection={<IconArrowLeft size={16} />}
-            >
-              Précédent
-            </Button>
-            <Button 
-              onClick={nextStep}
-              rightSection={<IconArrowRight size={16} />}
-            >
-              Suivant
-            </Button>
+            <Button variant="default" onClick={prevStep} disabled={activeStep === 0} leftSection={<IconArrowLeft size={16} />}>Précédent</Button>
+            <Button onClick={nextStep} rightSection={<IconArrowRight size={16} />}>Suivant</Button>
           </Group>
         ) : (
           <Stack mt="xl" gap="md">
             <Group justify="space-between">
-              <Button 
-                variant="default" 
-                onClick={prevStep}
-                leftSection={<IconArrowLeft size={16} />}
-              >
-                Précédent
-              </Button>
+              <Button variant="default" onClick={prevStep} leftSection={<IconArrowLeft size={16} />}>Précédent</Button>
             </Group>
             <Center>
-              <Button 
-                color="brandBlue" 
-                onClick={handleSubmit} 
-                loading={loading}
-                size="lg"
-                rightSection={<IconCheck size={16} />}
-              >
-                Créer le compte
-              </Button>
+              <Button color="brandBlue" onClick={handleSubmit} loading={loading} size="lg" rightSection={<IconCheck size={16} />}>Créer le compte</Button>
             </Center>
           </Stack>
         )}
