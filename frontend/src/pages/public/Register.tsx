@@ -55,19 +55,19 @@ export default function Signup() {
     }
 
     setAvatarFile(file);
+    setError('');
 
-    // Mobile-friendly preview
-    if (window.innerWidth > 768) {
-      // Desktop : URL.createObjectURL
-      const url = URL.createObjectURL(file);
-      setPreview(url);
-    } else {
-      // Mobile : FileReader
-      const reader = new FileReader();
-      reader.onload = () => setPreview(reader.result as string);
-      reader.onerror = () => setError("Impossible de charger l'image sur ce périphérique");
-      reader.readAsDataURL(file);
-    }
+    // Utiliser FileReader pour tous les appareils (plus fiable sur mobile)
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (e.target?.result) {
+        setPreview(e.target.result as string);
+      }
+    };
+    reader.onerror = () => {
+      setError("Impossible de charger l'image");
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleLevelChange = (values: string[]) => {
