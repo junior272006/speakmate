@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { 
   Button, Group, TextInput, PasswordInput, Stack, Paper, Textarea,
-  Title, Text, Container, Center, ThemeIcon, Alert, Avatar,
+  Title, Text, Container, Center, ThemeIcon, Alert,  Avatar,
   Checkbox, MultiSelect, Progress, Badge
 } from '@mantine/core';
 import { 
@@ -213,11 +213,19 @@ export default function Signup() {
                   type="file"
                   accept="image/*"
                   style={{ display: 'none' }}
+                  onInput={(e) => {
+                    console.log('Input onInput déclenché', (e.target as HTMLInputElement).files);
+                    const file = (e.target as HTMLInputElement).files?.[0];
+                    if (file) {
+                      console.log('Fichier trouvé via onInput:', file.name, file.type, file.size);
+                      handleFileChange(file);
+                    }
+                  }}
                   onChange={(e) => {
                     console.log('Input onChange déclenché', e.target.files);
                     const file = e.target.files?.[0];
                     if (file) {
-                      console.log('Fichier trouvé:', file.name, file.type, file.size);
+                      console.log('Fichier trouvé via onChange:', file.name, file.type, file.size);
                       handleFileChange(file);
                     } else {
                       console.log('Aucun fichier sélectionné');
