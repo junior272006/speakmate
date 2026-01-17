@@ -235,29 +235,40 @@ export default function Signup() {
                 ) : (
                   <Avatar size={120} radius="xl" color="brandBlue"><IconUser size={48} /></Avatar>
                 )}
+                
+                {/* Input pour galerie */}
                 <input
                   ref={fileInputRef}
                   type="file"
-                  accept="image/*"
+                  accept="image/png,image/jpeg,image/jpg,image/webp"
                   style={{ display: 'none' }}
                 />
-                <Button
-                  variant="light"
-                  color="brandBlue"
-                  leftSection={<IconUpload size={16} />}
-                  size="sm"
-                  onClick={() => {
-                    console.log('Bouton cliqué');
-                    if (fileInputRef.current) {
-                      console.log('Input trouvé, déclenchement du click');
-                      fileInputRef.current.click();
-                    } else {
-                      console.log('Input non trouvé !');
-                    }
-                  }}
-                >
-                  {preview ? 'Changer la photo' : 'Ajouter une photo'}
-                </Button>
+                
+                <Group gap="xs">
+                  <Button
+                    variant="light"
+                    color="brandBlue"
+                    leftSection={<IconUpload size={16} />}
+                    size="sm"
+                    onClick={() => {
+                      console.log('Bouton galerie cliqué');
+                      if (fileInputRef.current) {
+                        // Supprimer l'attribut accept temporairement pour forcer l'explorateur
+                        fileInputRef.current.removeAttribute('accept');
+                        console.log('Accept retiré, déclenchement du click');
+                        fileInputRef.current.click();
+                        // Remettre accept après
+                        setTimeout(() => {
+                          if (fileInputRef.current) {
+                            fileInputRef.current.setAttribute('accept', 'image/png,image/jpeg,image/jpg,image/webp');
+                          }
+                        }, 100);
+                      }
+                    }}
+                  >
+                    {preview ? 'Changer' : 'Ajouter'}
+                  </Button>
+                </Group>
               </Stack>
             </Center>
           </Stack>
