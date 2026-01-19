@@ -71,7 +71,7 @@ export const registerTutor = async (tutorData: TutorData): Promise<ApiResponse> 
 //---------------CONNEXION TUTEUR-----------
 export const loginTutor= async(loginData:LoginData):Promise<ApiResponse> => {
   try{
-    const response = await fetch(`${API_URL}/tutor/login`,
+    const response = await fetch(`${API_URL}/api/tutor/login`,
       ({
         method:'POST',
         headers: { 'Content-Type': 'application/json' },
