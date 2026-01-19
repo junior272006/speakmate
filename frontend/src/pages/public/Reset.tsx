@@ -33,7 +33,7 @@ export default function ResetPassword() {
   useEffect(() => {
     const checkToken = async () => {
       try {
-        const response = await fetch(`${API_URL}/api/auth/reset-password/${token}`);
+        const response = await fetch(`${API_URL}/api/email/reset-password/${token}`);
         const data = await response.json();
         
         setTokenValid(data.valid);
