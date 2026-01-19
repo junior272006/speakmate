@@ -124,7 +124,7 @@ export default function Login() {
                 size="sm"
                 c="brandBlue"
                 component={Link}
-                to="/forgott"
+                to="/forgot-password"
               >
                 Mot de passe oublié ?
               </Anchor>
