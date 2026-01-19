@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const TutorRoute=require('./routes/tutor')
+const EmailRoute= require('./routes/email')
 require('dotenv').config();
 
 // 🔍 DEBUG - Vérifie le JWT_SECRET au démarrage
@@ -46,4 +47,5 @@ app.get('/api/health', (req, res) => {
 
 // Routes
 app.use('/api/tutor',TutorRoute)
+app.use('/api/email',EmailRoute)
 module.exports = app;

@@ -7,6 +7,8 @@ import { theme } from './theme/theme.ts';
 import Home from './pages/public/Home.tsx';
 import Login from './pages/public/Login.tsx';
 import Signup from './pages/public/Register.tsx';
+import ForgotPassword from './pages/public/Forgott.tsx';
+import ResetPassword from './pages/public/Reset.tsx';
 import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
@@ -18,6 +20,8 @@ createRoot(document.getElementById('root')!).render(
    <Route path='/' element={< Home/>} />
    <Route path='/signup' element={< Signup/>} />
    <Route path='/login' element={< Login/>} />
+    <Route path="/forgot-password" element={<ForgotPassword />} />
+    <Route path="/reset-password/:token" element={<ResetPassword />} />
     </Routes>
     </BrowserRouter>
      </MantineProvider>

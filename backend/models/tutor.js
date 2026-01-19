@@ -12,6 +12,8 @@ const tutorSchema = mongoose.Schema({
   experience: String,
   level: [String],
   presentation: String,
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
   termsAccepted: { type: Boolean, required: true } 
 }, { timestamps: true });
 

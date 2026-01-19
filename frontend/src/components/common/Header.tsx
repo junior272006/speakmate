@@ -98,7 +98,7 @@ export default function Header() {
               {colorScheme === 'dark' ? <IconSun size={18} /> : <IconMoon size={18} />}
             </ActionIcon>
 
-            <Button color="brandBlue" radius="md" size="sm" >
+            <Button color="brandBlue" radius="md" size="sm"  onClick={() => navigate("/login")}  >
               Se Connecter
             </Button>
           </Group>
@@ -152,7 +152,7 @@ export default function Header() {
               </ActionIcon>
             </Group>
 
-            <Button color="brandBlue" fullWidth radius="md" >
+            <Button color="brandBlue" fullWidth radius="md"  onClick={() => navigate("/login")}>
               Se Connecter
             </Button>
           </Stack>
