@@ -14,6 +14,8 @@ import {
 } from '@mantine/core';
 import { IconMail, IconAlertCircle, IconCheck, IconArrowLeft } from '@tabler/icons-react';
 
+const API_URL = 'https://speakmate-backend-rhww.onrender.com';
+
 export default function ForgotPassword() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -33,7 +35,7 @@ export default function ForgotPassword() {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/email/forgot-password', {
+      const response = await fetch(`${API_URL}/api/email/forgot-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),

@@ -17,6 +17,8 @@ import {
 } from '@mantine/core';
 import { IconLock, IconAlertCircle, IconCheck, IconX } from '@tabler/icons-react';
 
+const API_URL = 'https://speakmate-backend-rhww.onrender.com';
+
 export default function ResetPassword() {
   const navigate = useNavigate();
   const { token } = useParams<{ token: string }>();
@@ -31,7 +33,7 @@ export default function ResetPassword() {
   useEffect(() => {
     const checkToken = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/auth/reset-password/${token}`);
+        const response = await fetch(`${API_URL}/api/auth/reset-password/${token}`);
         const data = await response.json();
         
         setTokenValid(data.valid);
@@ -85,7 +87,7 @@ export default function ResetPassword() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/api/email/reset-password/${token}`, {
+      const response = await fetch(`${API_URL}/api/email/reset-password/${token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password }),
