@@ -1,6 +1,6 @@
 const Tutor = require('../models/tutor');
 const bcrypt = require('bcrypt');
-
+const jwt= require('jsonwebtoken')
 exports.CreateTutor = async (req, res) => {
   try {
     console.log('BODY:', req.body);
@@ -55,3 +55,33 @@ exports.CreateTutor = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.ConnectTutor= (req,res) => {
+  
+  Tutor.findOne({email:req.body.email})
+  .then((tutor) =>{
+    if (tutor===null) {
+      return res.status(401).json({message:"Utilisateur introuvable"})
+    }
+  
+      bcrypt.compare(req.body.password,tutor.password)
+    .then((valid)=> {
+      if (!valid){
+        return res.status(401).json({message:"Impossible"})
+      }
+      else{
+        return res.status(200).json({
+          id:tutor._id,
+          email:tutor.email,
+          token:jwt.sign(
+            {id:tutor._id},
+            process.env.JWT_SECRET,
+            {expiresIn:"24h"}
+          )
+        })
+      }
+    })
+     .catch(err => res.status(500).json({ message: 'Erreur serveur', error: err.message }))
+  })
+   .catch(err => res.status(500).json({ message: 'Erreur serveur', error: err.message }))
+}

@@ -15,6 +15,11 @@ export interface TutorData {
   termsAccepted: boolean;
 }
 
+export interface LoginData {
+    email: string;
+    password: string;
+}
+
 export interface ApiResponse {
   message?: string;
   error?: string;
@@ -62,3 +67,31 @@ export const registerTutor = async (tutorData: TutorData): Promise<ApiResponse> 
     return { error: err.message || 'Erreur inconnue' };
   }
 };
+
+//---------------CONNEXION TUTEUR-----------
+export const loginTutor= async(loginData:LoginData):Promise<ApiResponse> => {
+  try{
+    const response = await fetch(`${API_URL}/tutor/login`,
+      ({
+        method:'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(loginData)
+      })
+    )
+    const data:ApiResponse= await response.json()
+      if (!response.ok) {
+            throw new Error(data.error || data.message || 'Erreur lors de la connexion');
+        }
+    return data
+  }
+  catch(error:any){
+     console.error(' Erreur loginUser:', error);
+        
+        // Gestion erreur réseau
+        if (error.message === 'Failed to fetch') {
+            throw new Error('Impossible de contacter le serveur');
+        }
+        
+        throw error;
+  }
+}
