@@ -4,17 +4,8 @@ import {
   SimpleGrid, 
   Stack, 
   Text, 
-  Group, 
-  ActionIcon, 
   useMantineColorScheme 
 } from '@mantine/core';
-
-import { 
-  IconBrandFacebook, 
-  IconBrandLinkedin, 
-  IconBrandInstagram, 
-  IconBrandTwitter 
-} from '@tabler/icons-react';
 
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -40,7 +31,7 @@ export default function Footer() {
     { label: 'Accueil', to: '/' },
     { label: 'Tuteurs', to: '/#tuteurs' },
     { label: 'Devenir tuteur', to: '/signup' },
-    { label: 'Connexion', to: '/login' },
+    { label: 'Rapport', to: '/login' },
   ];
 
   const infoLinks = [
@@ -50,9 +41,9 @@ export default function Footer() {
   ];
 
   return (
-    <Box component="footer" py={50} px={20} style={{ background: bgGradient }}>
-      <Container size="lg">
-        <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="xl">
+    <Box component="footer" py={50} style={{ background: bgGradient, width: '100%' }}>
+      <Container size="xl">
+        <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="xl">
 
           {/* =================== LOGO & DESCRIPTION =================== */}
           <motion.div
@@ -62,7 +53,7 @@ export default function Footer() {
             transition={{ duration: 0.6 }}
           >
             <Stack gap="xs" className={classes.footerStack}>
-              <Text fw={700} c={textColor}>
+              <Text fw={700} c={textColor} size="lg">
                 SpeakMate
               </Text>
               <Text c={textColor} size="sm">
@@ -130,32 +121,6 @@ export default function Footer() {
                   {info.label}
                 </Text>
               ))}
-            </Stack>
-          </motion.div>
-
-          {/* =================== RESEAUX SOCIAUX =================== */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <Stack gap="xs" className={classes.footerStack}>
-              <Text fw={600} c={textColor}>Réseaux sociaux</Text>
-              <Group gap="sm" className={classes.footerGroup}>
-                <ActionIcon variant="filled" color="brandBlue" component="a" href="#">
-                  <IconBrandFacebook size={20} color="white" />
-                </ActionIcon>
-                <ActionIcon variant="filled" color="brandBlue" component="a" href="#">
-                  <IconBrandLinkedin size={20} color="white" />
-                </ActionIcon>
-                <ActionIcon variant="filled" color="brandRed" component="a" href="#">
-                  <IconBrandInstagram size={20} color="white" />
-                </ActionIcon>
-                <ActionIcon variant="filled" color="brandRed" component="a" href="#">
-                  <IconBrandTwitter size={20} color="white" />
-                </ActionIcon>
-              </Group>
             </Stack>
           </motion.div>
 
