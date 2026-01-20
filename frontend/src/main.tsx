@@ -10,6 +10,7 @@ import Signup from './pages/public/Register.tsx';
 import ForgotPassword from './pages/public/Forgott.tsx';
 import ResetPassword from './pages/public/Reset.tsx';
 import FAQ from './pages/public/Faq.tsx';
+import Contact from './pages/public/Contact.tsx';
 import Privacy from './pages/public/Privacy.tsx';
 import App from './App.tsx'
 
@@ -25,6 +26,7 @@ createRoot(document.getElementById('root')!).render(
     <Route path="/forgot-password" element={<ForgotPassword />} />
     <Route path="/reset-password/:token" element={<ResetPassword />} />
     <Route path="/faq" element={<FAQ />} />
+     <Route path="/contact" element={<Contact />} />
     <Route path="/privacy" element={<Privacy/>} />
     </Routes>
     </BrowserRouter>
