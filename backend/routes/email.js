@@ -48,11 +48,11 @@ router.post('/forgot-password', async (req, res) => {
       tutor.firstName || tutor.name || 'Utilisateur'
     );
 
-    console.log(`📧 Email de réinitialisation envoyé à: ${email}`);
+    console.log(` Email de réinitialisation envoyé à: ${email}`);
     res.json({ message: standardMessage });
 
   } catch (error) {
-    console.error('❌ Erreur forgot-password:', error);
+    console.error(' Erreur forgot-password:', error);
     res.status(500).json({ message: 'Erreur serveur, réessayez plus tard' });
   }
 });
@@ -93,7 +93,7 @@ router.get('/reset-password/:token', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Erreur vérification token:', error);
+    console.error(' Erreur vérification token:', error);
     res.status(400).json({ 
       valid: false, 
       message: 'Erreur de vérification' 
@@ -108,9 +108,9 @@ router.post('/reset-password/:token', async (req, res) => {
     const { password } = req.body;
 
     // Validation du mot de passe
-    if (!password || password.length < 8) {
+    if (!password || password.length < 6) {
       return res.status(400).json({ 
-        message: 'Le mot de passe doit contenir au moins 8 caractères' 
+        message: 'Le mot de passe doit contenir au moins 6 caractères' 
       });
     }
 
@@ -142,12 +142,12 @@ router.post('/reset-password/:token', async (req, res) => {
     tutor.resetPasswordExpires = undefined;
     await tutor.save();
 
-    console.log(`✅ Mot de passe réinitialisé pour: ${tutor.email}`);
+    console.log(` Mot de passe réinitialisé pour: ${tutor.email}`);
     
     res.json({ message: 'Mot de passe réinitialisé avec succès' });
 
   } catch (error) {
-    console.error('❌ Erreur reset-password:', error);
+    console.error(' Erreur reset-password:', error);
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
