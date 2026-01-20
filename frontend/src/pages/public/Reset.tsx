@@ -53,8 +53,7 @@ export default function ResetPassword() {
 
   const getPasswordStrength = (password: string) => {
     let strength = 0;
-    if (password.length >= 8) strength += 25;
-    if (password.length >= 12) strength += 25;
+    if (password.length >= 6) strength += 50;
     if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength += 25;
     if (/\d/.test(password)) strength += 15;
     if (/[^a-zA-Z0-9]/.test(password)) strength += 10;
@@ -74,8 +73,8 @@ export default function ResetPassword() {
       return;
     }
 
-    if (password.length < 8) {
-      setError('Le mot de passe doit contenir au moins 8 caractères');
+    if (password.length < 6) {
+      setError('Le mot de passe doit contenir au moins 6 caractères');
       setLoading(false);
       return;
     }
@@ -214,7 +213,7 @@ export default function ResetPassword() {
           <Stack>
             <PasswordInput
               label="Nouveau mot de passe"
-              placeholder="Au moins 8 caractères"
+              placeholder="Au moins 6 caractères"
               leftSection={<IconLock size={16} />}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
