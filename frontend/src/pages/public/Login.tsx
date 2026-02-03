@@ -9,7 +9,6 @@ import {
   Text,
   Container,
   Group,
-  Checkbox,
   Anchor,
   Stack,
   Alert,
@@ -118,8 +117,8 @@ export default function Login() {
               required
             />
 
-            <Group justify="space-between">
-              <Checkbox label="Se souvenir de moi" />
+            <Group justify="center" >
+            
               <Anchor
                 size="sm"
                 c="brandBlue"

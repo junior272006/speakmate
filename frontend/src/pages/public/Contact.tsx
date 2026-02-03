@@ -70,18 +70,20 @@ export default function Contact() {
             </ActionIcon>
 
             {/* Email */}
-            <ActionIcon
-              component="a"
-              href="mailto:junior27nguetta@gmail.com"
-              size="xl"
-              radius="xl"
-              variant="light"
-              style={{ transition: 'transform 0.2s' }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-            >
-              <IconMail size={28} />
-            </ActionIcon>
+           <ActionIcon
+  component="a"
+  href="https://mail.google.com/mail/?view=cm&fs=1&to=junior27nguetta@gmail.com"
+  target="_blank"
+  size="xl"
+  radius="xl"
+  variant="light"
+  style={{ transition: 'transform 0.2s' }}
+  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+>
+  <IconMail size={28} />
+</ActionIcon>
+
           </Group>
         </Paper>
 
